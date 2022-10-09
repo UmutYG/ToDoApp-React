@@ -40,7 +40,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //                       </p>
 //                       <footer className="blockquote-footer mt-2" id="author"><cite title="Source Title"></cite></footer>
 //                     </blockquote>
-//               </div> 
+//               </div>
 //   });
 // }
 // }
@@ -191,51 +191,32 @@ var TaskControl = /*#__PURE__*/function (_React$Component2) {
   return TaskControl;
 }(React.Component);
 
-var ToDoList = /*#__PURE__*/function (_React$Component3) {
-  _inherits(ToDoList, _React$Component3);
+var ToDoList = function ToDoList(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "accordion",
+    id: "mainAccordion"
+  }, props.todos.tasks.map(function (item, index) {
+    return /*#__PURE__*/React.createElement(ToDo, {
+      key: index,
+      deleteTask: props.deleteTask,
+      task: item
+    });
+  }));
+};
 
-  var _super3 = _createSuper(ToDoList);
+var ToDo = /*#__PURE__*/function (_React$Component3) {
+  _inherits(ToDo, _React$Component3);
 
-  function ToDoList() {
-    _classCallCheck(this, ToDoList);
-
-    return _super3.apply(this, arguments);
-  }
-
-  _createClass(ToDoList, [{
-    key: "render",
-    value: function render() {
-      var _this3 = this;
-
-      return /*#__PURE__*/React.createElement("div", {
-        className: "accordion",
-        id: "mainAccordion"
-      }, this.props.todos.tasks.map(function (item, index) {
-        return /*#__PURE__*/React.createElement(ToDo, {
-          key: index,
-          deleteTask: _this3.props.deleteTask,
-          task: item
-        });
-      }));
-    }
-  }]);
-
-  return ToDoList;
-}(React.Component);
-
-var ToDo = /*#__PURE__*/function (_React$Component4) {
-  _inherits(ToDo, _React$Component4);
-
-  var _super4 = _createSuper(ToDo);
+  var _super3 = _createSuper(ToDo);
 
   function ToDo(props) {
-    var _this4;
+    var _this3;
 
     _classCallCheck(this, ToDo);
 
-    _this4 = _super4.call(this, props);
-    _this4.deleteTask = _this4.deleteTask.bind(_assertThisInitialized(_this4));
-    return _this4;
+    _this3 = _super3.call(this, props);
+    _this3.deleteTask = _this3.deleteTask.bind(_assertThisInitialized(_this3));
+    return _this3;
   }
 
   _createClass(ToDo, [{
@@ -288,40 +269,23 @@ var ToDo = /*#__PURE__*/function (_React$Component4) {
   return ToDo;
 }(React.Component);
 
-var Filters = /*#__PURE__*/function (_React$Component5) {
-  _inherits(Filters, _React$Component5);
-
-  var _super5 = _createSuper(Filters);
-
-  function Filters() {
-    _classCallCheck(this, Filters);
-
-    return _super5.apply(this, arguments);
-  }
-
-  _createClass(Filters, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React.createElement("ul", {
-        className: "list-group list-group-horizontal mb-3"
-      }, /*#__PURE__*/React.createElement("li", {
-        className: "list-group-item"
-      }, /*#__PURE__*/React.createElement("a", {
-        href: "#"
-      }, "All")), /*#__PURE__*/React.createElement("li", {
-        className: "list-group-item"
-      }, /*#__PURE__*/React.createElement("a", {
-        href: "#"
-      }, "Pending")), /*#__PURE__*/React.createElement("li", {
-        className: "list-group-item"
-      }, /*#__PURE__*/React.createElement("a", {
-        href: "#"
-      }, "Completed")));
-    }
-  }]);
-
-  return Filters;
-}(React.Component);
+var Filters = function Filters() {
+  return /*#__PURE__*/React.createElement("ul", {
+    className: "list-group list-group-horizontal mb-3"
+  }, /*#__PURE__*/React.createElement("li", {
+    className: "list-group-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#"
+  }, "All")), /*#__PURE__*/React.createElement("li", {
+    className: "list-group-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#"
+  }, "Pending")), /*#__PURE__*/React.createElement("li", {
+    className: "list-group-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#"
+  }, "Completed")));
+};
 
 var PageHeader = function PageHeader() {
   return /*#__PURE__*/React.createElement("p", {
