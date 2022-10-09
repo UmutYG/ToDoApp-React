@@ -42,10 +42,35 @@ class ToDoApp extends React.Component
     this.state = {
       tasks:
       [
-        new TaskModel("deneme1","deneme2")
+        new TaskModel("Startup Task 1","Do 1"),
+        new TaskModel("Startup Task 2","Do 2"),
+        new TaskModel("Startup Task 3","Do 3")
       ]
   }
   }
+  componentDidMount()
+  {
+    const tasks = JSON.parse(localStorage.getItem("tasks"));
+    if(tasks)
+    {
+      // Override default tasks with localstorage tasks.
+      this.setState({
+        tasks : tasks
+      })
+    }
+
+  }
+  componentDidUpdate(prevProps, prevState)
+  {
+    // Determining if there is a change
+    if(prevState.tasks.length !== this.state.tasks.length)
+    {
+      const jsonData = JSON.stringify(this.state.tasks);
+      localStorage.setItem("tasks", jsonData);
+    }
+  }
+
+  
 
   addTask(task)
   {

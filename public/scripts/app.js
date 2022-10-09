@@ -65,12 +65,33 @@ var ToDoApp = /*#__PURE__*/function (_React$Component) {
     _this.addTask = _this.addTask.bind(_assertThisInitialized(_this));
     _this.deleteTask = _this.deleteTask.bind(_assertThisInitialized(_this));
     _this.state = {
-      tasks: [new TaskModel("deneme1", "deneme2")]
+      tasks: [new TaskModel("Startup Task 1", "Do 1"), new TaskModel("Startup Task 2", "Do 2"), new TaskModel("Startup Task 3", "Do 3")]
     };
     return _this;
   }
 
   _createClass(ToDoApp, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var tasks = JSON.parse(localStorage.getItem("tasks"));
+
+      if (tasks) {
+        // Override default tasks with localstorage tasks.
+        this.setState({
+          tasks: tasks
+        });
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      // Determining if there is a change
+      if (prevState.tasks.length !== this.state.tasks.length) {
+        var jsonData = JSON.stringify(this.state.tasks);
+        localStorage.setItem("tasks", jsonData);
+      }
+    }
+  }, {
     key: "addTask",
     value: function addTask(task) {
       // Method 1
