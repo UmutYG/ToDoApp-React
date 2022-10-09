@@ -63,6 +63,7 @@ var ToDoApp = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.addTask = _this.addTask.bind(_assertThisInitialized(_this));
+    _this.deleteTask = _this.deleteTask.bind(_assertThisInitialized(_this));
     _this.state = {
       tasks: [new TaskModel("deneme1", "deneme2")]
     };
@@ -72,10 +73,29 @@ var ToDoApp = /*#__PURE__*/function (_React$Component) {
   _createClass(ToDoApp, [{
     key: "addTask",
     value: function addTask(task) {
-      console.log("sağ");
+      // Method 1
+      // this.state.tasks.push(task)
+      // this.setState(
+      // {
+      //   tasks : this.state.tasks
+      // });
+      // Method 2
       this.setState(function (prevState) {
         return {
           tasks: prevState.tasks.concat(task)
+        };
+      });
+    }
+  }, {
+    key: "deleteTask",
+    value: function deleteTask(task) {
+      // get a new array
+      this.setState(function (prevState) {
+        var updatedTasks = prevState.tasks.filter(function (t) {
+          return t != task;
+        });
+        return {
+          tasks: updatedTasks
         };
       });
     }
@@ -85,6 +105,7 @@ var ToDoApp = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(PageHeader, null), " ", /*#__PURE__*/React.createElement(TaskControl, {
         addTask: this.addTask
       }), " ", /*#__PURE__*/React.createElement(Filters, null), " ", /*#__PURE__*/React.createElement(ToDoList, {
+        deleteTask: this.deleteTask,
         todos: this.state
       }));
     }
@@ -149,21 +170,112 @@ var TaskControl = /*#__PURE__*/function (_React$Component2) {
   return TaskControl;
 }(React.Component);
 
-var PageHeader = function PageHeader() {
-  return /*#__PURE__*/React.createElement("p", {
-    className: "card-text fs-4"
-  }, "ToDoApp");
-};
+var ToDoList = /*#__PURE__*/function (_React$Component3) {
+  _inherits(ToDoList, _React$Component3);
 
-var Filters = /*#__PURE__*/function (_React$Component3) {
-  _inherits(Filters, _React$Component3);
+  var _super3 = _createSuper(ToDoList);
 
-  var _super3 = _createSuper(Filters);
+  function ToDoList() {
+    _classCallCheck(this, ToDoList);
+
+    return _super3.apply(this, arguments);
+  }
+
+  _createClass(ToDoList, [{
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      return /*#__PURE__*/React.createElement("div", {
+        className: "accordion",
+        id: "mainAccordion"
+      }, this.props.todos.tasks.map(function (item, index) {
+        return /*#__PURE__*/React.createElement(ToDo, {
+          key: index,
+          deleteTask: _this3.props.deleteTask,
+          task: item
+        });
+      }));
+    }
+  }]);
+
+  return ToDoList;
+}(React.Component);
+
+var ToDo = /*#__PURE__*/function (_React$Component4) {
+  _inherits(ToDo, _React$Component4);
+
+  var _super4 = _createSuper(ToDo);
+
+  function ToDo(props) {
+    var _this4;
+
+    _classCallCheck(this, ToDo);
+
+    _this4 = _super4.call(this, props);
+    _this4.deleteTask = _this4.deleteTask.bind(_assertThisInitialized(_this4));
+    return _this4;
+  }
+
+  _createClass(ToDo, [{
+    key: "deleteTask",
+    value: function deleteTask() {
+      this.props.deleteTask(this.props.task);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/React.createElement("div", {
+        className: "accordion-item"
+      }, /*#__PURE__*/React.createElement("h2", {
+        className: "accordion-header",
+        id: "headingOne"
+      }, /*#__PURE__*/React.createElement("button", {
+        className: "accordion-button",
+        type: "button",
+        "data-bs-toggle": "collapse",
+        "data-bs-target": "#a${task.TaskId}",
+        "aria-expanded": "true",
+        "aria-controls": "collapseOne"
+      }, this.props.task.taskHeader), /*#__PURE__*/React.createElement("div", {
+        className: "icons"
+      }, /*#__PURE__*/React.createElement("a", {
+        href: "#"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "fa-solid fa-pen-to-square fa-sm"
+      })), /*#__PURE__*/React.createElement("a", {
+        href: "#"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "fa-solid fa-trash fa-sm",
+        onClick: this.deleteTask
+      })), /*#__PURE__*/React.createElement("a", {
+        href: "#",
+        id: "status"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "${statusIcon}"
+      })))), /*#__PURE__*/React.createElement("div", {
+        id: "a${task.id}",
+        className: "accordion-collapse collapse show",
+        "aria-labelledby": "headingOne",
+        "data-bs-parent": "#accordionExample"
+      }, /*#__PURE__*/React.createElement("div", {
+        className: "accordion-body"
+      }, this.props.task.taskDescription)));
+    }
+  }]);
+
+  return ToDo;
+}(React.Component);
+
+var Filters = /*#__PURE__*/function (_React$Component5) {
+  _inherits(Filters, _React$Component5);
+
+  var _super5 = _createSuper(Filters);
 
   function Filters() {
     _classCallCheck(this, Filters);
 
-    return _super3.apply(this, arguments);
+    return _super5.apply(this, arguments);
   }
 
   _createClass(Filters, [{
@@ -190,88 +302,10 @@ var Filters = /*#__PURE__*/function (_React$Component3) {
   return Filters;
 }(React.Component);
 
-var ToDoList = /*#__PURE__*/function (_React$Component4) {
-  _inherits(ToDoList, _React$Component4);
-
-  var _super4 = _createSuper(ToDoList);
-
-  function ToDoList() {
-    _classCallCheck(this, ToDoList);
-
-    return _super4.apply(this, arguments);
-  }
-
-  _createClass(ToDoList, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React.createElement("div", {
-        className: "accordion",
-        id: "mainAccordion"
-      }, this.props.todos.tasks.map(function (item) {
-        return /*#__PURE__*/React.createElement(ToDo, {
-          taskHeader: item.taskHeader,
-          description: item.taskDescription
-        });
-      }));
-    }
-  }]);
-
-  return ToDoList;
-}(React.Component);
-
-var ToDo = /*#__PURE__*/function (_React$Component5) {
-  _inherits(ToDo, _React$Component5);
-
-  var _super5 = _createSuper(ToDo);
-
-  function ToDo() {
-    _classCallCheck(this, ToDo);
-
-    return _super5.apply(this, arguments);
-  }
-
-  _createClass(ToDo, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React.createElement("div", {
-        className: "accordion-item"
-      }, /*#__PURE__*/React.createElement("h2", {
-        className: "accordion-header",
-        id: "headingOne"
-      }, /*#__PURE__*/React.createElement("button", {
-        className: "accordion-button",
-        type: "button",
-        "data-bs-toggle": "collapse",
-        "data-bs-target": "#a${task.TaskId}",
-        "aria-expanded": "true",
-        "aria-controls": "collapseOne"
-      }, this.props.taskHeader), /*#__PURE__*/React.createElement("div", {
-        className: "icons"
-      }, /*#__PURE__*/React.createElement("a", {
-        href: "#"
-      }, /*#__PURE__*/React.createElement("i", {
-        className: "fa-solid fa-pen-to-square fa-sm"
-      })), /*#__PURE__*/React.createElement("a", {
-        href: "#"
-      }, /*#__PURE__*/React.createElement("i", {
-        className: "fa-solid fa-trash fa-sm"
-      })), /*#__PURE__*/React.createElement("a", {
-        href: "#",
-        id: "status"
-      }, /*#__PURE__*/React.createElement("i", {
-        className: "${statusIcon}"
-      })))), /*#__PURE__*/React.createElement("div", {
-        id: "a${task.id}",
-        className: "accordion-collapse collapse show",
-        "aria-labelledby": "headingOne",
-        "data-bs-parent": "#accordionExample"
-      }, /*#__PURE__*/React.createElement("div", {
-        className: "accordion-body"
-      }, this.props.description)));
-    }
-  }]);
-
-  return ToDo;
-}(React.Component);
+var PageHeader = function PageHeader() {
+  return /*#__PURE__*/React.createElement("p", {
+    className: "card-text fs-4"
+  }, "ToDoApp");
+};
 
 ReactDOM.render( /*#__PURE__*/React.createElement(ToDoApp, null), root);

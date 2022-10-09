@@ -38,6 +38,7 @@ class ToDoApp extends React.Component
   {
     super(props);
     this.addTask = this.addTask.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
     this.state = {
       tasks:
       [
@@ -45,18 +46,40 @@ class ToDoApp extends React.Component
       ]
   }
   }
+
   addTask(task)
   {
-    console.log("sağ");
+    // Method 1
+      // this.state.tasks.push(task)
+      // this.setState(
+      // {
+      //   tasks : this.state.tasks
+      // });
+    
+    // Method 2
     this.setState((prevState) => {
       return { tasks: prevState.tasks.concat(task)}
     });
+    
+  }
+
+  deleteTask(task)
+  {
+    // get a new array
+    this.setState((prevState)=>{
+      const updatedTasks = prevState.tasks.filter((t) => {
+        return t != task;
+      })
+      return {
+        tasks : updatedTasks
+      }
+    })
   }
   render()
   {
     return (
       <div>
-        <PageHeader/> <TaskControl addTask={this.addTask}/> <Filters/> <ToDoList  todos={this.state}/>
+        <PageHeader/> <TaskControl addTask={this.addTask}/> <Filters/> <ToDoList deleteTask={this.deleteTask} todos={this.state}/>
       </div>
     )
   }
@@ -99,13 +122,60 @@ constructor(props)
 }
 
 
-const PageHeader = function()
+class ToDoList extends React.Component
 {
-  return (
-    <p className="card-text fs-4" >ToDoApp</p>
-  )
+  render()
+  {
+    
+    return (
+      <div className="accordion" id="mainAccordion">
+        {
+            this.props.todos.tasks.map((item,index) =>
+              <ToDo key={index} deleteTask={this.props.deleteTask} task={item}/>
+            )
+        }
+      </div>
+    );
+  }
 }
 
+class ToDo extends React.Component
+{
+  constructor(props)
+  {
+    super(props);
+    this.deleteTask = this.deleteTask.bind(this);
+  }
+  deleteTask()
+    {
+      this.props.deleteTask(this.props.task)
+    }
+  render()
+  {
+    
+    
+    return(
+      <div className="accordion-item">
+        <h2 className="accordion-header" id="headingOne">
+            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a${task.TaskId}" aria-expanded="true" aria-controls="collapseOne">
+              {this.props.task.taskHeader}
+            </button>
+            <div className="icons">
+                <a href="#" ><i className="fa-solid fa-pen-to-square fa-sm"></i></a>
+                <a href="#" ><i className="fa-solid fa-trash fa-sm" onClick={this.deleteTask}></i></a>
+                <a href="#" id="status" ><i className="${statusIcon}"></i></a>
+                
+            </div> 
+        </h2>
+        <div id="a${task.id}" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div className="accordion-body">
+              {this.props.task.taskDescription}
+            </div>
+        </div>
+      </div>
+    )
+  }
+}
 
 
 class Filters extends React.Component
@@ -122,57 +192,11 @@ class Filters extends React.Component
   }
 }
 
-
-
-class ToDoList extends React.Component
+const PageHeader = function()
 {
-  render()
-  {
-    
-    return(
-      
-      <div className="accordion" id="mainAccordion">
-        {
-           this.props.todos.tasks.map((item) =>
-
-             <ToDo taskHeader={item.taskHeader} description={item.taskDescription}/>
-           
-        )}
-        
-         
-        
-      </div>
-    );
-  }
+  return (
+    <p className="card-text fs-4" >ToDoApp</p>
+  )
 }
-
-class ToDo extends React.Component
-{
-  render()
-  {
-    
-    return(
-      <div className="accordion-item">
-        <h2 className="accordion-header" id="headingOne">
-            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a${task.TaskId}" aria-expanded="true" aria-controls="collapseOne">
-              {this.props.taskHeader}
-            </button>
-            <div className="icons">
-                <a href="#" ><i className="fa-solid fa-pen-to-square fa-sm"></i></a>
-                <a href="#" ><i className="fa-solid fa-trash fa-sm"></i></a>
-                <a href="#" id="status" ><i className="${statusIcon}"></i></a>
-                
-            </div> 
-        </h2>
-        <div id="a${task.id}" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div className="accordion-body">
-              {this.props.description}
-            </div>
-        </div>
-      </div>
-    )
-  }
-}
-
 
 ReactDOM.render(<ToDoApp/>,root);
