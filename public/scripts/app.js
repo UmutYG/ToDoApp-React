@@ -2,12 +2,6 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -21,6 +15,12 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // class Blockquote extends React.Component
 // {
@@ -44,6 +44,13 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 //   });
 // }
 // }
+var TaskModel = /*#__PURE__*/_createClass(function TaskModel(taskHeader, taskDescription) {
+  _classCallCheck(this, TaskModel);
+
+  this.taskHeader = taskHeader;
+  this.taskDescription = taskDescription;
+});
+
 var ToDoApp = /*#__PURE__*/function (_React$Component) {
   _inherits(ToDoApp, _React$Component);
 
@@ -55,20 +62,29 @@ var ToDoApp = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, ToDoApp);
 
     _this = _super.call(this, props);
+    _this.addTask = _this.addTask.bind(_assertThisInitialized(_this));
     _this.state = {
-      taskHeader: "deneme1",
-      taskDescription: "deneme2"
+      tasks: [new TaskModel("deneme1", "deneme2")]
     };
     return _this;
   }
 
   _createClass(ToDoApp, [{
     key: "addTask",
-    value: function addTask(task) {}
+    value: function addTask(task) {
+      console.log("sağ");
+      this.setState(function (prevState) {
+        return {
+          tasks: prevState.tasks.concat(task)
+        };
+      });
+    }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(PageHeader, null), " ", /*#__PURE__*/React.createElement(TaskControl, null), " ", /*#__PURE__*/React.createElement(Filters, null), " ", /*#__PURE__*/React.createElement(ToDoList, {
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(PageHeader, null), " ", /*#__PURE__*/React.createElement(TaskControl, {
+        addTask: this.addTask
+      }), " ", /*#__PURE__*/React.createElement(Filters, null), " ", /*#__PURE__*/React.createElement(ToDoList, {
         todos: this.state
       }));
     }
@@ -82,26 +98,41 @@ var TaskControl = /*#__PURE__*/function (_React$Component2) {
 
   var _super2 = _createSuper(TaskControl);
 
-  function TaskControl() {
+  function TaskControl(props) {
+    var _this2;
+
     _classCallCheck(this, TaskControl);
 
-    return _super2.apply(this, arguments);
+    _this2 = _super2.call(this, props);
+    _this2.onFormSubmit = _this2.onFormSubmit.bind(_assertThisInitialized(_this2));
+    return _this2;
   }
 
   _createClass(TaskControl, [{
+    key: "onFormSubmit",
+    value: function onFormSubmit(e) {
+      e.preventDefault();
+      var header = e.target.elements.taskHeader.value.trim();
+      var desc = e.target.elements.taskDescription.value.trim();
+      var newTask = new TaskModel(header, desc);
+      this.props.addTask(newTask);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      return /*#__PURE__*/React.createElement("form", {
+        onSubmit: this.onFormSubmit
+      }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/React.createElement("input", {
         type: "text",
         className: "form-control",
         placeholder: "Add Task",
-        "aria-label": "Recipient's username",
+        name: "taskHeader",
         id: "input"
       }), /*#__PURE__*/React.createElement("button", {
         className: "btn btn-outline-secondary",
-        type: "button",
+        onClick: this.preparetoAdd,
         id: "button-add"
       }, "Add")), /*#__PURE__*/React.createElement("div", {
         className: "input-group mb-3"
@@ -109,9 +140,9 @@ var TaskControl = /*#__PURE__*/function (_React$Component2) {
         type: "text",
         className: "form-control",
         placeholder: "Add Description",
-        "aria-label": "Recipient's username",
+        name: "taskDescription",
         id: "inputDesc"
-      })));
+      }))));
     }
   }]);
 
@@ -176,9 +207,11 @@ var ToDoList = /*#__PURE__*/function (_React$Component4) {
       return /*#__PURE__*/React.createElement("div", {
         className: "accordion",
         id: "mainAccordion"
-      }, /*#__PURE__*/React.createElement(ToDo, {
-        taskHeader: this.props.todos.taskHeader,
-        description: this.props.todos.taskDescription
+      }, this.props.todos.tasks.map(function (item) {
+        return /*#__PURE__*/React.createElement(ToDo, {
+          taskHeader: item.taskHeader,
+          description: item.taskDescription
+        });
       }));
     }
   }]);

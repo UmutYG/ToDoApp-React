@@ -23,28 +23,40 @@
 // }
 
 // }
+class TaskModel
+{
+  constructor(taskHeader, taskDescription)
+  {
+    this.taskHeader = taskHeader;
+    this.taskDescription = taskDescription;
+  }
+}
 
 class ToDoApp extends React.Component
 {
   constructor(props)
   {
     super(props);
+    this.addTask = this.addTask.bind(this);
     this.state = {
-        taskHeader: "deneme1", 
-        taskDescription :"deneme2"
-      
-      
-    }
+      tasks:
+      [
+        new TaskModel("deneme1","deneme2")
+      ]
+  }
   }
   addTask(task)
   {
-    
+    console.log("sağ");
+    this.setState((prevState) => {
+      return { tasks: prevState.tasks.concat(task)}
+    });
   }
   render()
   {
     return (
       <div>
-        <PageHeader/> <TaskControl /> <Filters/> <ToDoList todos={this.state}/>
+        <PageHeader/> <TaskControl addTask={this.addTask}/> <Filters/> <ToDoList  todos={this.state}/>
       </div>
     )
   }
@@ -53,20 +65,35 @@ class ToDoApp extends React.Component
 
 class TaskControl extends React.Component
 {
+constructor(props)
+{
+  super(props);
+  this.onFormSubmit = this.onFormSubmit.bind(this);
+}
+  onFormSubmit(e){
+    e.preventDefault();
+    const header = e.target.elements.taskHeader.value.trim();
+    const desc = e.target.elements.taskDescription.value.trim();
+    const newTask = new TaskModel(header,desc);
+    this.props.addTask(newTask);
+  }
   
   render()
   {
     return (
-      <div>
-        <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="Add Task" aria-label="Recipient's username" id="input"/>
-            <button className="btn btn-outline-secondary" type="button" id="button-add">Add</button>
-        </div>
-        <div className="input-group mb-3">
-          <input type="text" className="form-control"  placeholder="Add Description" aria-label="Recipient's username" id="inputDesc"/>
-        </div>
-      </div> 
+      <form onSubmit={this.onFormSubmit}>
+        <div>
+          <div className="input-group mb-3">
+              <input type="text" className="form-control" placeholder="Add Task" name="taskHeader" id="input"/>
+              <button  className="btn btn-outline-secondary" onClick={this.preparetoAdd}  id="button-add">Add</button>
+          </div> 
+          <div className="input-group mb-3">
+            <input type="text" className="form-control" placeholder="Add Description" name="taskDescription" id="inputDesc"/>
+          </div>
+        </div> 
+      </form>
     )
+    
     
   }
 }
@@ -101,11 +128,19 @@ class ToDoList extends React.Component
 {
   render()
   {
-
+    
     return(
       
       <div className="accordion" id="mainAccordion">
-        <ToDo taskHeader={this.props.todos.taskHeader} description={this.props.todos.taskDescription}/>
+        {
+           this.props.todos.tasks.map((item) =>
+
+             <ToDo taskHeader={item.taskHeader} description={item.taskDescription}/>
+           
+        )}
+        
+         
+        
       </div>
     );
   }
