@@ -17,6 +17,12 @@ module.exports = {
             test:  /\.js$/,
             loader: 'babel-loader',
             exclude: '/node_modules'
+           },
+           {
+            // check for .js extensioned files.
+            test:  /\.css$/,
+            use: ['style-loader','css-loader']
+            
            } 
         ]
     }

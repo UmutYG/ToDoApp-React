@@ -3,6 +3,7 @@ import Filters from "./Filters"
 import TaskControl from "./TaskControl"
 import ToDoList from "./ToDoList"
 import TaskModel from "./TaskModel"
+import Blockquote from "./Blockquote"
 
 
 export default class ToDoApp extends React.Component {
@@ -63,6 +64,7 @@ export default class ToDoApp extends React.Component {
     render() {
       return (
         <div>
+          <Blockquote/>
           <TaskControl addTask={this.addTask} /> <Filters />{" "}
           <ToDoList deleteTask={this.deleteTask} todos={this.state} />
         </div>
