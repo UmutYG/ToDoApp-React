@@ -4,9 +4,14 @@ export default class ToDo extends React.Component {
     constructor(props) {
       super(props);
       this.deleteTask = this.deleteTask.bind(this);
+      this.editTask = this.editTask.bind(this);
     }
     deleteTask() {
       this.props.deleteTask(this.props.task);
+    }
+    editTask() {
+      this.props.editTask(this.props.task);
+
     }
     render() {
       return (
@@ -24,7 +29,9 @@ export default class ToDo extends React.Component {
             </button>
             <div className="icons">
               <a href="#">
-                <i className="fa-solid fa-pen-to-square fa-sm"></i>
+                <i className="fa-solid fa-pen-to-square fa-sm" onClick={this.editTask}>
+                    
+                </i>
               </a>
               <a href="#">
                 <i
@@ -33,7 +40,7 @@ export default class ToDo extends React.Component {
                 ></i>
               </a>
               <a href="#" id="status">
-                <i className="${statusIcon}"></i>
+                <i className="fa-solid fa-check"></i>
               </a>
             </div>
           </h2>

@@ -11,12 +11,15 @@ export default class ToDoApp extends React.Component {
       super(props);
       this.addTask = this.addTask.bind(this);
       this.deleteTask = this.deleteTask.bind(this);
+      this.editTask = this.editTask.bind(this);
+      this.updateTask = this.updateTask.bind(this);
       this.state = {
         tasks: [
-          new TaskModel("Startup Task 1", "Do 1"),
-          new TaskModel("Startup Task 2", "Do 2"),
-          new TaskModel("Startup Task 3", "Do 3"),
+          new TaskModel(1, "Startup Task 1", "Do 1", false),
+          new TaskModel(2, "Startup Task 2", "Do 2", false),
+          new TaskModel(3, "Startup Task 3", "Do 3", false),
         ],
+        onEdit: null
       };
     }
     componentDidMount() {
@@ -29,8 +32,9 @@ export default class ToDoApp extends React.Component {
       }
     }
     componentDidUpdate(prevProps, prevState) {
+  
       // Determining if there is a change
-      if (prevState.tasks.length !== this.state.tasks.length) {
+      if (prevState.tasks.length !== this.state.tasks.length || 1) {
         const jsonData = JSON.stringify(this.state.tasks);
         localStorage.setItem("tasks", jsonData);
       }
@@ -49,7 +53,22 @@ export default class ToDoApp extends React.Component {
         return { tasks: prevState.tasks.concat(task) };
       });
     }
-  
+    
+    editTask(task)
+    {
+      // Filling the input fileds by getting edited task on state.
+        this.setState({onEdit : task});
+     
+    }
+
+    updateTask(task)
+    {
+      this.state.tasks.find(t => t.id == task.id).taskHeader = task.taskHeader;
+      this.state.tasks.find(t => t.id == task.id).taskDescription = task.taskDescription;
+      this.setState({
+        tasks: this.state.tasks
+      });
+    }
     deleteTask(task) {
       // get a new array
       this.setState((prevState) => {
@@ -65,8 +84,8 @@ export default class ToDoApp extends React.Component {
       return (
         <div>
           <Blockquote/>
-          <TaskControl addTask={this.addTask} /> <Filters />{" "}
-          <ToDoList deleteTask={this.deleteTask} todos={this.state} />
+          <TaskControl updateTask={this.updateTask} addTask={this.addTask} onEdit={this.state.onEdit}/> <Filters />{" "}
+          <ToDoList editTask={this.editTask} deleteTask={this.deleteTask} todos={this.state}  />
         </div>
       );
     }
