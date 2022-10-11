@@ -1,15 +1,16 @@
 import React  from "react";
+import { Link } from "react-router-dom";
 const Filters = () => {
     return (
       <ul className="list-group list-group-horizontal mb-3">
         <li className="list-group-item">
-          <a href="#">All</a>
+          <Link to="/">All</Link>
         </li>
         <li className="list-group-item">
-          <a href="#">Pending</a>
+          <Link to="/pending">Pending</Link>
         </li>
         <li className="list-group-item">
-          <a href="#">Completed</a>
+          <Link to="/completed">Completed</Link>
         </li>
       </ul>
     );

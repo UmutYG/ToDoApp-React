@@ -18,13 +18,13 @@ export default class ToDo extends React.Component {
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingOne">
             <button
-              className="accordion-button"
+              className= 'accordion-button'
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#a${task.TaskId}"
               aria-expanded="true"
               aria-controls="collapseOne"
-            >
+              >
               {this.props.task.taskHeader}
             </button>
             <div className="icons">
@@ -40,7 +40,8 @@ export default class ToDo extends React.Component {
                 ></i>
               </a>
               <a href="#" id="status">
-                <i className="fa-solid fa-check"></i>
+                <i className={this.props.task.isDone ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>this.props.updateTask(this.props.task)}></i>
+                
               </a>
             </div>
           </h2>

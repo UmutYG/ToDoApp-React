@@ -1,14 +1,14 @@
 import ToDo from "./ToDo"
 import React from "react";
-const ToDoList = (props) => {
+const ToDoListPending = (props) => {
   
     return (
       <div className="accordion" id="mainAccordion">
         {props.todos.map((item, index) => (
-          <ToDo updateTask = {props.updateTask} editTask={props.editTask} key={index} deleteTask={props.deleteTask} task={item} />
+          <ToDo editTask={props.editTask} key={index} deleteTask={props.deleteTask} task={item} />
         ))}
       </div>
     );
   };
 
-  export default ToDoList;
+  export default ToDoListPending;
