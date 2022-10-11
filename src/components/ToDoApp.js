@@ -2,8 +2,7 @@ import React from "react"
 import Filters from "./Filters"
 import TaskControl from "./TaskControl"
 import ToDoList from "./ToDoList"
-import ToDoListCompleted from "./ToDoListCompleted"
-import ToDoListPending from "./ToDoListPending"
+
 import TaskModel from "./TaskModel"
 import Blockquote from "./Blockquote"
 import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom"
@@ -92,23 +91,15 @@ export default class ToDoApp extends React.Component {
               <TaskControl updateTask={this.updateTask} addTask={this.addTask} onEdit={this.state.onEdit}/>
               <Filters/>
               <Switch>
-                  <Route exact path="/" render = { props => (
+                  <Route exact path="/:filter" render = { router => (
                     <>
-                      <ToDoList updateTask = {this.updateTask} editTask={this.editTask} deleteTask={this.deleteTask} todos={this.state.tasks}/>
+                      <ToDoList updateTask = {this.updateTask} router = {router} editTask={this.editTask} deleteTask={this.deleteTask} todos={this.state.tasks}/>
                     </>
                   )
                   }  />
-                  <Route path="/pending" render = { props => (
-                    <>
-                      <ToDoListPending updateTask = {this.updateTask} editTask={this.editTask} deleteTask={this.deleteTask} todos={this.state.tasks.filter(t => t.isDone == false)}/>
-                    </>
-                  )}  />
-                  <Route path="/completed" render = { props => (
-                    <>
-                     <ToDoListCompleted updateTask = {this.updateTask} editTask={this.editTask} deleteTask={this.deleteTask} todos={this.state.tasks.filter(t => t.isDone == true)}/>
-
-                    </>
-                  )}  />
+                 
+                  
+                  
               </Switch>
           </BrowserRouter>
       );
