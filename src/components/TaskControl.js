@@ -13,7 +13,7 @@ export default class TaskControl extends React.Component {
       e.preventDefault();
       const header = e.target.elements.taskHeader.value.trim();
       const desc = e.target.elements.taskDescription.value.trim();
-      const newTask = new TaskModel(1, header, desc, false);
+      const newTask = new TaskModel(1, header, desc, "pending");
       
       if(e.target.elements.button.textContent == "Add")
         {

@@ -1,21 +1,39 @@
-import ToDo from "./ToDo"
+import ToDo from "./ToDo";
 import React from "react";
-const ToDoList = (props) => {
-  
-  let filter = props.router.match.params.filter == "pending" ? false : true;
-  const updated = props.todos.filter((todo)=> {
-              return todo.isDone == filter;
-  });
-  console.log(filter);
+class ToDoList extends React.Component {
+  render() {
+    const {updateTask, editTask, deleteTask, router} = this.props
     return (
+      
       <div className="accordion" id="mainAccordion">
-        {
-           updated.map((item, index) => (
-            <ToDo updateTask = {props.updateTask} editTask={props.editTask} key={index} deleteTask={props.deleteTask} task={item} />
-          ))
-        }
+        {this.props.todos.map((item, index) => {
+          if (this.props.router.match.params.filter == "all") {
+            return (
+              <ToDo
+                updateTask={updateTask}
+                editTask={editTask}
+                key={index}
+                deleteTask={deleteTask}
+                task={item}
+              />
+            );
+          } else {
+            if (item.isDone == router.match.params.filter) {
+              return (
+                <ToDo
+                  updateTask={updateTask}
+                  editTask={editTask}
+                  key={index}
+                  deleteTask={deleteTask}
+                  task={item}
+                />
+              );
+            }
+          }
+        })}
       </div>
     );
-  };
+  }
+}
 
-  export default ToDoList;
+export default ToDoList;

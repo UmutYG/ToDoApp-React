@@ -14,6 +14,7 @@ export default class ToDo extends React.Component {
 
     }
     render() {
+      
       return (
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingOne">
@@ -40,7 +41,7 @@ export default class ToDo extends React.Component {
                 ></i>
               </a>
               <a href="#" id="status">
-                <i className={this.props.task.isDone ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>this.props.updateTask(this.props.task)}></i>
+                <i className={this.props.task.isDone =="completed" ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>this.props.updateTask(this.props.task)}></i>
                 
               </a>
             </div>

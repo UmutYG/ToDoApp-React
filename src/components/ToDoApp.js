@@ -5,7 +5,10 @@ import ToDoList from "./ToDoList"
 
 import TaskModel from "./TaskModel"
 import Blockquote from "./Blockquote"
+
+
 import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom"
+import "../styles/style.css"
 
 export default class ToDoApp extends React.Component {
     constructor(props) {
@@ -16,9 +19,9 @@ export default class ToDoApp extends React.Component {
       this.updateTask = this.updateTask.bind(this);
       this.state = {
         tasks: [
-          new TaskModel(1, "Startup Task 1", "Do 1", false),
-          new TaskModel(2, "Startup Task 2", "Do 2", true),
-          new TaskModel(3, "Startup Task 3", "Do 3", false),
+          new TaskModel(1, "Startup Task 1", "Do 1", "pending"),
+          new TaskModel(2, "Startup Task 2", "Do 2", "completed"),
+          new TaskModel(3, "Startup Task 3", "Do 3", "pending"),
         ],
         onEdit: null
       };
@@ -42,14 +45,6 @@ export default class ToDoApp extends React.Component {
     }
   
     addTask(task) {
-      // Method 1
-      // this.state.tasks.push(task)
-      // this.setState(
-      // {
-      //   tasks : this.state.tasks
-      // });
-  
-      // Method 2
       this.setState((prevState) => {
         return { tasks: prevState.tasks.concat(task) };
       });
@@ -59,7 +54,6 @@ export default class ToDoApp extends React.Component {
     {
       // Filling the input fileds by getting edited task on state.
         this.setState({onEdit : task});
-     
     }
 
     updateTask(task)
@@ -68,7 +62,7 @@ export default class ToDoApp extends React.Component {
       change.taskHeader = task.taskHeader;
       change.taskDescription = task.taskDescription;
 
-      change.isDone = change.isDone ? false : true;
+      change.isDone = change.isDone == "completed" ? "pending" : "completed";
       this.setState({
         tasks: this.state.tasks
       });
