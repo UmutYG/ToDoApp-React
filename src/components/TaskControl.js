@@ -1,15 +1,25 @@
 import React  from "react";
 import TaskModel  from "./TaskModel";
-
+import TodosContext from "./context/todos-context";
+import { useContext } from "react";
 const TaskControl =(props) => {
    
-    const {onEdit, addTask, updateTask} = props;
+   
+    const {dispatch, onEdit, updateTask} = useContext(TodosContext);
+
     const onFormSubmit = (e) => {
       e.preventDefault();
       const header = e.target.elements.taskHeader.value.trim();
       const desc = e.target.elements.taskDescription.value.trim();
       const newTask = new TaskModel(1, header, desc, "pending");
-      
+
+
+      const addTask = (todo) => {
+        dispatch({
+          type:'ADD_TODO',
+          todo:todo
+        });
+      }
       if(e.target.elements.button.textContent == "Add")
         {
           addTask(newTask);
@@ -19,7 +29,6 @@ const TaskControl =(props) => {
            updateTask(onEdit);
            clearInputs(e.target.elements)
         }
-      
     }
 
     const clearInputs = (element) => 
@@ -30,7 +39,7 @@ const TaskControl =(props) => {
     
     const onChange = (e) =>
     {
-      if(onEdit)
+      if(onEdit!=null)
       {
         switch (e.target.name) {
           case "taskHeader":
@@ -44,7 +53,6 @@ const TaskControl =(props) => {
         }
       }
     }
-     
       return (
         <form onSubmit={onFormSubmit}>
           <div>
@@ -55,7 +63,6 @@ const TaskControl =(props) => {
                 placeholder="Add Task"
                 name="taskHeader"
                 id="input"
-                //defaultValue={this.props.onEdit ? this.props.onEdit.taskHeader: ""}
                 defaultValue={onEdit? onEdit.taskHeader: ""}
                 onChange={onChange}
               />
@@ -63,9 +70,8 @@ const TaskControl =(props) => {
               <button
                 className="btn btn-outline-secondary"
                 id="button-add"
-                name="button" 
+                name="button"
                 type="submit">
-              
                 
                 {onEdit ? "Edit" : "Add"}
               </button>
@@ -76,11 +82,9 @@ const TaskControl =(props) => {
                 className="form-control"
                 placeholder="Add Description"
                 name="taskDescription"
-                id="inputDesc"
                 //defaultValue={this.props.onEdit ? this.props.onEdit.taskDescription: ""}
                 defaultValue={onEdit? onEdit.taskDescription: ""}
                 onChange={onChange}
-
               />
             </div>
           </div>

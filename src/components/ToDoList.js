@@ -1,33 +1,26 @@
 import ToDo from "./ToDo";
 import React from "react";
+import TodosContext from "./context/todos-context";
+import { useContext } from "react";
 const ToDoList = (props) => {
-    const {updateTask, editTask, deleteTask, router, todos} = props;
-   
-
+    const {todos} = useContext(TodosContext);
     return (
-      
       <div className="accordion" id="mainAccordion">
-        {todos.map((item, index) => {
-         
-          if (router.match.params.filter == "all" || props.router.match.url == "/") {
+        {todos.map((todo, index) => {
+        
+          if (props.match.params.filter == "all" || props.match.url == "/") {
             return (
               <ToDo
-                updateTask={updateTask}
-                editTask={editTask}
                 key={index}
-                deleteTask={deleteTask}
-                task={item}
+                todo={todo}
               />
             );
           } else {
-            if (item.isDone == router.match.params.filter) {
+            if (todo.isDone == props.match.params.filter) {
               return (
                 <ToDo
-                  updateTask={updateTask}
-                  editTask={editTask}
                   key={index}
-                  deleteTask={deleteTask}
-                  task={item}
+                  todo={todo}
                 />
               );
             }

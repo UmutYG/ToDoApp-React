@@ -1,42 +1,48 @@
-import React  from "react";
-
+import React, { useContext }  from "react";
+import TodosContext from "./context/todos-context";
 const ToDo = (props) => {
-  const {deleteTask, editTask, task, updateTask} = props;
-
+  const { todo} = props;
+  const {dispatch,editTask, updateTask} = useContext(TodosContext);
+  const deleteTask = (todo) => {
+    dispatch({
+      type:"REMOVE_TODO",
+      todo:todo
+    });
+  }
     return (
       <div className="accordion-item">
         <h2 className="accordion-header" id="headingOne">
           <button
-            className= {'accordion-button collapsed bordered border-end ' + task.isDone}
+            className= {'accordion-button collapsed bordered border-end ' + todo.isDone}
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target={`#a${task.id}`}
+            data-bs-target={`#a${todo.id}`}
             aria-expanded="false"
             >
-            {task.taskHeader }
+            {todo.taskHeader }
           </button>
           <div className="icons">
             <a href="#">
-              <i className="fa-solid fa-pen-to-square fa-sm" onClick={() => editTask(task)}>
+              <i className="fa-solid fa-pen-to-square fa-sm" onClick={() => editTask(todo)}>
                   
               </i>
             </a>
             <a href="#">
               <i
                 className="fa-solid fa-trash fa-sm"
-                onClick={() => deleteTask(task)}
+                onClick={ ()=> deleteTask(todo) }
               ></i>
             </a>
             <a href="#" id="status">
-              <i className={task.isDone =="completed" ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>updateTask(task)}></i>
+              <i className={todo.isDone =="completed" ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>updateTask(todo)}></i>
             </a>
           </div>
         </h2>
         <div
-          id={`a${task.id}`}
+          id={`a${todo.id}`}
           className="accordion-collapse collapse">
           <div className="accordion-body">
-            {task.taskDescription}
+            {todo.taskDescription}
           </div>
         </div>
       </div>
