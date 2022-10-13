@@ -26,7 +26,7 @@ export default class ToDo extends React.Component {
               aria-expanded="true"
               aria-controls="collapseOne"
               >
-              {this.props.task.taskHeader}
+              {this.props.task.taskHeader }
             </button>
             <div className="icons">
               <a href="#">
