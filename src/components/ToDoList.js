@@ -1,12 +1,14 @@
 import ToDo from "./ToDo";
 import React from "react";
-class ToDoList extends React.Component {
-  render() {
-    const {updateTask, editTask, deleteTask, router} = this.props
+const ToDoList = (props) => {
+    const {updateTask, editTask, deleteTask, router, todos} = props;
+    
+
     return (
       <div className="accordion" id="mainAccordion">
-        {this.props.todos.map((item, index) => {
-          if (this.props.router.match.params.filter == "all" || this.props.router.match.url == "/") {
+        {todos.map((item, index) => {
+         
+          if (router.match.params.filter == "all" || props.router.match.url == "/") {
             return (
               <ToDo
                 updateTask={updateTask}
@@ -32,7 +34,7 @@ class ToDoList extends React.Component {
         })}
       </div>
     );
-  }
+  
 }
 
 export default ToDoList;

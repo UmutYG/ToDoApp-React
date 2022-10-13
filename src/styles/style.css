@@ -33,6 +33,20 @@ a {
 {
     color: green !important;
 }
+.fa-xmark
+{
+    color: rgb(219, 27, 27) !important;
+    padding-left: 5px;
+}
+.fa-trash
+{
+    color: rgba(226, 238, 150) !important;
+}
+.fa-pen-to-square
+{
+    color: rgb(105, 233, 233) !important;
+    padding-right: 5px;
+}
 
 .completed 
 {

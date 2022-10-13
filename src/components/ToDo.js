@@ -1,65 +1,51 @@
 import React  from "react";
 
-export default class ToDo extends React.Component {
-    constructor(props) {
-      super(props);
-      this.deleteTask = this.deleteTask.bind(this);
-      this.editTask = this.editTask.bind(this);
-    }
-    deleteTask() {
-      this.props.deleteTask(this.props.task);
-    }
-    editTask() {
-      this.props.editTask(this.props.task);
+const ToDo = (props) => {
+  const {deleteTask, editTask, task, updateTask} = props;
 
-    }
-    render() {
-      
-      return (
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingOne">
-            <button
-              className= {'accordion-button ' + this.props.task.isDone}
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target={`#a${this.props.task.id}`}
-              aria-expanded="true"
-              aria-controls="collapseOne"
-              >
-              {this.props.task.taskHeader }
-            </button>
-            <div className="icons">
-              <a href="#">
-                <i className="fa-solid fa-pen-to-square fa-sm" onClick={this.editTask}>
-                    
-                </i>
-              </a>
-              <a href="#">
-                <i
-                  className="fa-solid fa-trash fa-sm"
-                  onClick={this.deleteTask}
-                ></i>
-              </a>
-              <a href="#" id="status">
-                <i className={this.props.task.isDone =="completed" ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>this.props.updateTask(this.props.task)}></i>
-                
-              </a>
-            </div>
-          </h2>
-          <div
-            id={`a${this.props.task.id}`}
-            className="accordion-collapse collapse show"
-            aria-labelledby="headingOne"
-            data-bs-parent="#accordionExample"
-          >
-            <div className="accordion-body">
-              {this.props.task.taskDescription}
-            </div>
+    return (
+      <div className="accordion-item">
+        <h2 className="accordion-header" id="headingOne">
+          <button
+            className= {'accordion-button collapsed bordered border-end ' + task.isDone}
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target={`#a${task.id}`}
+            aria-expanded="false"
+            >
+            {task.taskHeader }
+          </button>
+          <div className="icons">
+            <a href="#">
+              <i className="fa-solid fa-pen-to-square fa-sm" onClick={() => editTask(task)}>
+                  
+              </i>
+            </a>
+            <a href="#">
+              <i
+                className="fa-solid fa-trash fa-sm"
+                onClick={() => deleteTask(task)}
+              ></i>
+            </a>
+            <a href="#" id="status">
+              <i className={task.isDone =="completed" ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>updateTask(task)}></i>
+            </a>
+          </div>
+        </h2>
+        <div
+          id={`a${task.id}`}
+          className="accordion-collapse collapse">
+          <div className="accordion-body">
+            {task.taskDescription}
           </div>
         </div>
-      );
-    }
+      </div>
+    );
+  
   }
+
+  
+export default ToDo;
 
 
   

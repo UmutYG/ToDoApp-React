@@ -1,15 +1,10 @@
 import React  from "react";
 import TaskModel  from "./TaskModel";
 
-export default class TaskControl extends React.Component {
-    constructor(props) {
-      super(props);
-      this.onFormSubmit = this.onFormSubmit.bind(this);
-      this.onChange = this.onChange.bind(this);
-     
-    }
+const TaskControl =(props) => {
    
-    onFormSubmit(e) {
+    const {onEdit, addTask, updateTask} = props;
+    const onFormSubmit = (e) => {
       e.preventDefault();
       const header = e.target.elements.taskHeader.value.trim();
       const desc = e.target.elements.taskDescription.value.trim();
@@ -17,46 +12,41 @@ export default class TaskControl extends React.Component {
       
       if(e.target.elements.button.textContent == "Add")
         {
-          this.props.addTask(newTask);
-          this.clearInputs(e.target.elements)
+          addTask(newTask);
+          clearInputs(e.target.elements);
         }
         else{
-           this.props.updateTask(this.props.onEdit);
-           this.clearInputs(e.target.elements)
+           updateTask(onEdit);
+           clearInputs(e.target.elements)
         }
       
     }
 
-    clearInputs(element)
+    const clearInputs = (element) => 
     {
       element.taskHeader.value = "";
       element.taskDescription.value = "";
     }
     
-    onChange(e)
+    const onChange = (e) =>
     {
-      if(this.props.onEdit)
+      if(onEdit)
       {
         switch (e.target.name) {
           case "taskHeader":
-            this.props.onEdit.taskHeader = e.target.value;
+            onEdit.taskHeader = e.target.value;
             break;
           case "taskDescription":
-            this.props.onEdit.taskDescription = e.target.value;
+            onEdit.taskDescription = e.target.value;
             break;
           default:
             break;
         }
       }
-      
-
-
     }
-  
-    render() {
      
       return (
-        <form onSubmit={this.onFormSubmit}>
+        <form onSubmit={onFormSubmit}>
           <div>
             <div className="input-group mb-3">
               <input
@@ -66,8 +56,8 @@ export default class TaskControl extends React.Component {
                 name="taskHeader"
                 id="input"
                 //defaultValue={this.props.onEdit ? this.props.onEdit.taskHeader: ""}
-                defaultValue={this.props.onEdit? this.props.onEdit.taskHeader: ""}
-                onChange={this.onChange}
+                defaultValue={onEdit? onEdit.taskHeader: ""}
+                onChange={onChange}
               />
               
               <button
@@ -77,7 +67,7 @@ export default class TaskControl extends React.Component {
                 type="submit">
               
                 
-                {this.props.onEdit ? "Edit" : "Add"}
+                {onEdit ? "Edit" : "Add"}
               </button>
             </div>
             <div className="input-group mb-3">
@@ -88,13 +78,14 @@ export default class TaskControl extends React.Component {
                 name="taskDescription"
                 id="inputDesc"
                 //defaultValue={this.props.onEdit ? this.props.onEdit.taskDescription: ""}
-                defaultValue={this.props.onEdit? this.props.onEdit.taskDescription: ""}
-                onChange={this.onChange}
+                defaultValue={onEdit? onEdit.taskDescription: ""}
+                onChange={onChange}
 
               />
             </div>
           </div>
         </form>
       );
-    }
   }
+  
+  export default TaskControl;
