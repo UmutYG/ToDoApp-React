@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useReducer, useState } from "react"
 import Filters from "./Filters"
 import TaskControl from "./TaskControl"
 import ToDoList from "./ToDoList"
@@ -11,35 +11,52 @@ import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom"
 import "../styles/style.css"
 import LogInControl from "./LogInControl"
 
+const notesReducer = (state, action) => {
+  // returned value will be setted to state.
+  switch(action.type) {
+    case 'POPULATE_TODOS':
+      return action.todos
+    case 'ADD_TODO':
+      return state.todos.concat(action.task)
+    case 'REMOVE_TODO':
+      return state.filter((task) => task.id != action.task.id)
+    default:
+      return state
+
+  }
+}
 const ToDoApp = (props) => {
-    const [tasks, setTasks] = useState([
-      new TaskModel(1, "Startup Task 1", "Do 1", "pending"),
-      new TaskModel(2, "Startup Task 2", "Do 2", "completed"),
-      new TaskModel(3, "Startup Task 3", "Do 3", "pending")
-    ]);
+    // const [todos, setTasks] = useState([
+    //   new TaskModel(1, "Startup Task 1", "Do 1", "pending"),
+    //   new TaskModel(2, "Startup Task 2", "Do 2", "completed"),
+    //   new TaskModel(3, "Startup Task 3", "Do 3", "pending")
+    // ]);
+    const [todos, dispatch] = useReducer(notesReducer, [new TaskModel(1, "Startup Task 1", "Do 1", "pending"),new TaskModel(2, "Startup Task 2", "Do 2", "completed"),new TaskModel(3, "Startup Task 3", "Do 3", "pending")]);
     const [onEdit, setOnEdit] = useState(null);
     
     
     useEffect(()=>{
   
-      const tasks = JSON.parse(localStorage.getItem("tasks"));
-      if (tasks) {
-        
-        // Override default tasks with localstorage tasks.
-        setTasks(tasks);
+      const todosData = JSON.parse(localStorage.getItem("todos"));
+      if (todosData) {
+        // Override default todos with localstorage todos.
+        dispatch({type:"POPULATE_TODOS", todos : todosData})
       }
     },[]); 
       
-     useEffect((prevState)=>{
+     useEffect(() => {
        // Determining if there is a change
-       if (tasks.length !== tasks.length || 1) {
-        const jsonData = JSON.stringify(tasks);
-        localStorage.setItem("tasks", jsonData);
-      }}, [tasks]);
+       if (todos.length !== todos.length || 1) {
+        const jsonData = JSON.stringify(todos);
+        localStorage.setItem("todos", jsonData);
+      }}, [todos]);
 
   
-    const addTask = (task) => {
-      setTasks(tasks.concat(task));
+    const addTask = (todo) => {
+      dispatch({
+        type:'ADD_TODO',
+        task:todo
+      });
     }
     
     const editTask = (task) =>
@@ -50,21 +67,21 @@ const ToDoApp = (props) => {
 
     const updateTask = (task) =>
     {
-      let change = tasks.find(t => t.id == task.id);
+      let change = todos.find(t => t.id == task.id);
       change.taskHeader = task.taskHeader;
       change.taskDescription = task.taskDescription;
 
       change.isDone = change.isDone == "completed" ? "pending" : "completed";
-      setTasks(tasks);
+      dispatch({});
+      
     }
 
     
-    const deleteTask = (task) => {
-      const updatedTasks = tasks.filter((t) => {
-        return t != task;
+    const deleteTask = (todo) => {
+      dispatch({
+        type:"REMOVE_TODO",
+        task:todo
       });
-      // get a new array
-      setTasks(updatedTasks);
     }
   
     return (
@@ -75,13 +92,13 @@ const ToDoApp = (props) => {
             <Switch>
                 <Route path="/:filter" render = { router => (
                   <>
-                    <ToDoList updateTask = {updateTask} router = {router} editTask={editTask} deleteTask={deleteTask} todos={tasks}/>
+                    <ToDoList updateTask = {updateTask} router = {router} editTask={editTask} deleteTask={deleteTask} todos={todos}/>
                   </>
                 )
                 }  />
                 <Route render = { router => (
                   <>
-                    <ToDoList updateTask = {updateTask} router = {router} editTask={editTask} deleteTask={deleteTask} todos={tasks}/>
+                    <ToDoList updateTask = {updateTask} router = {router} editTask={editTask} deleteTask={deleteTask} todos={todos}/>
                   </>
                 )
                 }  />

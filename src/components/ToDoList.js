@@ -2,9 +2,10 @@ import ToDo from "./ToDo";
 import React from "react";
 const ToDoList = (props) => {
     const {updateTask, editTask, deleteTask, router, todos} = props;
-    
+   
 
     return (
+      
       <div className="accordion" id="mainAccordion">
         {todos.map((item, index) => {
          
