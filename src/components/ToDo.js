@@ -19,10 +19,10 @@ export default class ToDo extends React.Component {
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingOne">
             <button
-              className= 'accordion-button'
+              className= {'accordion-button ' + this.props.task.isDone}
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#a${task.TaskId}"
+              data-bs-target={`#a${this.props.task.id}`}
               aria-expanded="true"
               aria-controls="collapseOne"
               >
@@ -47,7 +47,7 @@ export default class ToDo extends React.Component {
             </div>
           </h2>
           <div
-            id="a${task.id}"
+            id={`a${this.props.task.id}`}
             className="accordion-collapse collapse show"
             aria-labelledby="headingOne"
             data-bs-parent="#accordionExample"

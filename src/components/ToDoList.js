@@ -4,10 +4,9 @@ class ToDoList extends React.Component {
   render() {
     const {updateTask, editTask, deleteTask, router} = this.props
     return (
-      
       <div className="accordion" id="mainAccordion">
         {this.props.todos.map((item, index) => {
-          if (this.props.router.match.params.filter == "all") {
+          if (this.props.router.match.params.filter == "all" || this.props.router.match.url == "/") {
             return (
               <ToDo
                 updateTask={updateTask}

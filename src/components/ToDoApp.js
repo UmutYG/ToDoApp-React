@@ -85,15 +85,18 @@ export default class ToDoApp extends React.Component {
               <TaskControl updateTask={this.updateTask} addTask={this.addTask} onEdit={this.state.onEdit}/>
               <Filters/>
               <Switch>
-                  <Route exact path="/:filter" render = { router => (
+                  <Route path="/:filter" render = { router => (
                     <>
                       <ToDoList updateTask = {this.updateTask} router = {router} editTask={this.editTask} deleteTask={this.deleteTask} todos={this.state.tasks}/>
                     </>
                   )
                   }  />
-                 
-                  
-                  
+                  <Route render = { router => (
+                    <>
+                      <ToDoList updateTask = {this.updateTask} router = {router} editTask={this.editTask} deleteTask={this.deleteTask} todos={this.state.tasks}/>
+                    </>
+                  )
+                  }  />
               </Switch>
           </BrowserRouter>
       );
