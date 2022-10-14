@@ -27,10 +27,9 @@ const ToDoApp = (props) => {
       
      useEffect(() => {
        // Determining if there is a change
-       if (todos.length !== todos.length || 1) {
         const jsonData = JSON.stringify(todos);
         localStorage.setItem("todos", jsonData);
-      }}, [todos]);
+      }, [todos]);
 
     const editTask = (todo) =>
     {
@@ -40,15 +39,12 @@ const ToDoApp = (props) => {
 
     const updateTask = (task) =>
     {
-     
       let change = todos.find(t => t.id == task.id);
-    
       change.taskHeader = task.taskHeader;
       change.taskDescription = task.taskDescription;
      
       change.isDone = change.isDone == "completed" ? "pending" : "completed";
-      dispatch({type:"POPULATE_TODOS", todos : todos})
-     ;
+      dispatch({type:"UPDATE_TODO", updated : todos})
       
     }
 

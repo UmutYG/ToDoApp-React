@@ -1,8 +1,9 @@
 import React, { useContext }  from "react";
 import TodosContext from "./context/todos-context";
 const ToDo = (props) => {
-  const { todo} = props;
+  const { todo } = props;
   const {dispatch,editTask, updateTask} = useContext(TodosContext);
+  
   const deleteTask = (todo) => {
     dispatch({
       type:"REMOVE_TODO",
