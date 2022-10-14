@@ -14,7 +14,7 @@ import LogInControl from "./LogInControl"
 
 const ToDoApp = (props) => {
 
-    const [todos, dispatch] = useReducer(todosReducer, [new TaskModel(1, "Startup Task 1", "Do 1", "pending"),new TaskModel(2, "Startup Task 2", "Do 2", "completed"),new TaskModel(3, "Startup Task 3", "Do 3", "pending")]);
+    const [todos, dispatch] = useReducer(todosReducer, );
     const [onEdit, setOnEdit] = useState(null);
     
     useEffect(()=>{
