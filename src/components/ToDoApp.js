@@ -10,47 +10,11 @@ import TodosContext from "./context/todos-context"
 import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom"
 import "../styles/style.css"
 import LogInControl from "./LogInControl"
+import TodosState from "./reducers/todosState"
 
-
-const ToDoApp = (props) => {
-
-    const [todos, dispatch] = useReducer(todosReducer, );
-    const [onEdit, setOnEdit] = useState(null);
-    
-    useEffect(()=>{
-      const todosData = JSON.parse(localStorage.getItem("todos"));
-      if (todosData) {
-        // Override default todos with localstorage todos.
-        dispatch({type:"POPULATE_TODOS", todos : todosData})
-      }
-    },[]); 
-      
-     useEffect(() => {
-       // Determining if there is a change
-        const jsonData = JSON.stringify(todos);
-        localStorage.setItem("todos", jsonData);
-      }, [todos]);
-
-    const editTask = (todo) =>
-    {
-      // Filling the input fileds by getting edited task on state.
-      setOnEdit(todo);
-    }
-
-    const updateTask = (task) =>
-    {
-      let change = todos.find(t => t.id == task.id);
-      change.taskHeader = task.taskHeader;
-      change.taskDescription = task.taskDescription;
-     
-      change.isDone = change.isDone == "completed" ? "pending" : "completed";
-      dispatch({type:"UPDATE_TODO", updated : todos})
-      
-    }
-
-  
+const ToDoApp = () => {
     return (
-      <TodosContext.Provider value={{todos, dispatch, updateTask, editTask, onEdit}}>
+        <TodosState>
           <BrowserRouter>
               <Blockquote/>
               <TaskControl/>
@@ -60,7 +24,7 @@ const ToDoApp = (props) => {
                   <Route component={ToDoList}/>
               </Switch>
             </BrowserRouter>
-        </TodosContext.Provider>
+          </TodosState>
     );
     }
     export default ToDoApp;

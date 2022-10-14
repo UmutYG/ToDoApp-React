@@ -4,7 +4,7 @@ import TodosContext from "./context/todos-context";
 import { useContext } from "react";
 const TaskControl =(props) => {
    
-    const {dispatch, onEdit, updateTask, todos} = useContext(TodosContext);
+    const {dispatch, onEdit, updateTask} = useContext(TodosContext);
 
     const onFormSubmit = (e) => {
       e.preventDefault();

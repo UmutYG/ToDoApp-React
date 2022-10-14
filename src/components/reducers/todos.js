@@ -2,16 +2,36 @@ const todosReducer = (state, action) => {
     // returned value will be setted to state.
     switch(action.type) {
       case 'POPULATE_TODOS':
-        return action.todos;
+        return {
+          ...state,
+           todos: action.todos
+          }
+        
       case 'ADD_TODO':
-        return state.concat(action.todo);
+        return {
+          ...state,
+          todos: state.todos.concat(action.todo)
+        }
       case 'REMOVE_TODO':
-        return state.filter((todo) => todo.id != action.todo.id);
+        return {
+         todos : state.todos.filter((todo) => todo.id != action.todo.id)
+        }
       case 'UPDATE_TODO':
         // Make sure we are returning same type with the state has.
-        return [...action.updated];
+        console.log(action.updated);
+        return {
+          todos : [...action.updated]
+        }
+
+      case 'EDIT_TODO':
+        
+        return {
+          ...state,
+          onEdit : action.todo
+        }
+          
       default:
-        throw new Error();
+        return state;
   
     }
   }

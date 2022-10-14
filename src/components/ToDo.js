@@ -2,7 +2,8 @@ import React, { useContext }  from "react";
 import TodosContext from "./context/todos-context";
 const ToDo = (props) => {
   const { todo } = props;
-  const {dispatch,editTask, updateTask} = useContext(TodosContext);
+  const {dispatch,editTask, updateStatus} = useContext(TodosContext);
+  
   
   const deleteTask = (todo) => {
     dispatch({
@@ -35,7 +36,7 @@ const ToDo = (props) => {
               ></i>
             </a>
             <a href="#" id="status">
-              <i className={todo.isDone =="completed" ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>updateTask(todo)}></i>
+              <i className={todo.isDone =="completed" ? "fa-solid fa-xmark" : "fa-solid fa-check" } onClick={()=>updateStatus(todo)}></i>
             </a>
           </div>
         </h2>
