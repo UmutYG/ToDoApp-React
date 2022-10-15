@@ -4,7 +4,7 @@ import TodosContext from "./context/todos-context";
 import { useContext } from "react";
 const TaskControl =(props) => {
    
-    const {dispatch, onEdit, updateTask} = useContext(TodosContext);
+    const {dispatch, onEdit} = useContext(TodosContext);
 
     const onFormSubmit = (e) => {
       e.preventDefault();
@@ -25,10 +25,11 @@ const TaskControl =(props) => {
           clearInputs(e.target.elements);
         }
         else{
-           updateTask(onEdit);
-           clearInputs(e.target.elements)
-        }
+          dispatch({type:"UPDATE_TODO", onEdit : newTask});
+          clearInputs(e.target.elements);
+          e.target.elements.button.textContent = "Add";
     }
+  }
 
     const clearInputs = (element) => 
     {
